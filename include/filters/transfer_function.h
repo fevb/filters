@@ -95,6 +95,9 @@ public:
    */
   virtual bool update(const T & data_in, T& data_out) ;
 
+  /** \brief Clears the input and output buffers
+   */
+  virtual bool reset() ;
 
 
 protected:
@@ -188,6 +191,19 @@ bool SingleChannelTransferFunctionFilter<T>::update(const T  & data_in, T & data
 
   input_buffer_->push_front(temp_);
   output_buffer_->push_front(data_out);
+
+  return true;
+};
+
+
+template <typename T>
+bool SingleChannelTransferFunctionFilter<T>::reset()
+{
+  if (!FilterBase<T>::configured_)
+    return false;
+
+  input_buffer_->clear();
+  output_buffer_->clear();
 
   return true;
 };
